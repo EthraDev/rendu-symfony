@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{pokemon.pokemonName|raw}}</h1>
+    <p>{{pokemon.type|raw}}</p>
+    <p>{{pokemon.ownerName|raw}}</p>
+    <p>{{pokemon.injury|raw}}</p>
+{% endblock %}

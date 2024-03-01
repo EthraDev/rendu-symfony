@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="div-background">
+    <div class="div-flex">
+        <div class="bg-blue div-flex">
+                <h1>Welcome to the Pokemon Center</h1>
+                <p>Here you can heal your pokemons</p>
+                <p>Just give me some informations to go !</p>
+            {% if is_granted('ROLE_ADMIN') %}
+                {{ form(add) }}
+            {% endif %}
+
+            <p>Or you can go to the list of pokemons</p>
+            {% for pokemon in pokemons %}
+                <a href="{{ path('app_pokemon_show', {'slug': pokemon.slug}) }}">{{ pokemon.pokemonName|raw }}</a>
+                <br>
+                {% if is_granted('ROLE_ADMIN') %}
+                <form action="{{ path('app_pokemon_delete', {'id': pokemon.id}) }}" method="post">
+                    <input type="hidden" name="csrf" value="{{ csrf_token('delete' ~ pokemon.id) }}">
+                    <input type="submit" value="Delete">
+                </form>
+                <a href="{{ path('app_pokemon_edit', {'slug': pokemon.slug}) }}">Edit</a>
+                {% endif %}
+            {% else %}
+                <p>No pokemons found</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
